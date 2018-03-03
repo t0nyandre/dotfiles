@@ -5,8 +5,8 @@
 ```sh
 dotfiles
 └── vscode
-	 	├──
-		├── README.md
-		├──	settings.json
-		└── keybindings.json
+	├──
+	├── README.md
+	├──	settings.json
+	└── keybindings.json
 ```
