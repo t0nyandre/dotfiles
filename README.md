@@ -5,8 +5,10 @@
 ```sh
 dotfiles
 └── vscode
-	├──
+│	├── README.md
+│	├── settings.json
+│	└── keybindings.json
+└── editorconfig
 	├── README.md
-	├──	settings.json
-	└── keybindings.json
+	└── .editorconfig
 ```
