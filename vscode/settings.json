@@ -64,5 +64,5 @@
     "git.enableSmartCommit": true,
     "explorer.confirmDelete": false,
     "shareCode.github.username": "t0nyandre",
-    "shareCode.github.authtoken": "c1f5ae5da4d353aecc87efe6e8b0020c00c68a49",
+    "shareCode.github.authtoken": "",
 }
