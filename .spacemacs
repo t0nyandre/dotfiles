@@ -332,19 +332,16 @@ before packages are loaded. If you are unsure, you should try in setting them in
 
      ;;;; Indentation
      ;; default
-     indent-tabs-mode t
+     indent-tabs-mode nil
      tab-width 2
      ;; crystal-mode
-     crystal-indent-tabs-mode t
+     crystal-indent-tabs-mode nil
      crystal-indent-level 2
 		 neo-theme 'icons
 		 ;; web-mode
 		 web-mode-code-indent-offset 2
-		 (after-load 'scss-mode
-								 (setq scss-sass-command "sass")
-								 (setq scss-compile-at-save nil)
-								 (setq scss-output-directory "./Programming/tonyandreblog/public/css/"))
-		 css-indent-offset 2
+		 web-mode-css-indent-offset 2
+		 web-mode-markup-indent-offset 2
 		 )))
 
 ;; Do not write anything past this comment. This is where Emacs will
