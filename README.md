@@ -9,6 +9,7 @@ dotfiles
 │	├── settings.json
 │	└── keybindings.json
 └── editorconfig
-	├── README.md
-	└── .editorconfig
+│	├── README.md
+│	└── .editorconfig
+└── .spacemacs
 ```
