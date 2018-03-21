@@ -11,5 +11,7 @@ dotfiles
 └── editorconfig
 │	├── README.md
 │	└── .editorconfig
-└── .spacemacs
+├── README.md
+├── .spacemacs
+└── logo.svg
 ```
