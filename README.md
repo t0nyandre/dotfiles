@@ -12,7 +12,7 @@ dotfiles
 │	├── README.md
 │	└── .editorconfig
 ├── xfce4
-│ └── terminal
+│	└── terminal
 │	  └── terminalrc
 ├── README.md
 ├── .spacemacs
