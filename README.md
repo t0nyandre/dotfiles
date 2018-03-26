@@ -11,6 +11,9 @@ dotfiles
 └── editorconfig
 │	├── README.md
 │	└── .editorconfig
+├── xfce4
+│ └── terminal
+│	  └── terminalrc
 ├── README.md
 ├── .spacemacs
 └── logo.svg
