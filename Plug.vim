@@ -60,6 +60,12 @@ let g:deoplete#enable_at_startup = 1
 " Crystal {{{
 Plug 'rhysd/vim-crystal', { 'for': 'crystal' }
 " }}}
+" PHP {{{
+Plug 'StanAngeloff/php.vim', { 'for': 'php' }
+Plug 'phpactor/phpactor' ,  {'do': 'composer install', 'for': 'php'}
+Plug 'kristijanhusak/deoplete-phpactor', { 'for': 'php' }
+Plug 'roxma/LanguageServer-php-neovim',  {'do': 'composer install && composer run-script parse-stubs'}
+" }}}
 " VimL {{{
 Plug 'ynkdir/vim-vimlparser', { 'for': 'vim' }
 Plug 'syngan/vim-vimlint', { 'for': 'vim' }
