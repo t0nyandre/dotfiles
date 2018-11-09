@@ -51,6 +51,9 @@ Plug 'autozimu/LanguageClient-neovim', {
     \ } " Client for the Language server
 Plug 'Shougo/neco-syntax'
 Plug 'Shougo/neco-vim'
+
+" Developer icons for statusbar and nerdtree
+Plug 'ryanoasis/vim-devicons'
 let g:deoplete#enable_at_startup = 1
 
 " Language specific {{{
