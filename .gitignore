@@ -1,4 +1,2 @@
-functions/fish_prompt.fish
-functions/fzf_key_bindings.fish
-composer*
-vendor/
+plugged/
+autoload/plug.vim

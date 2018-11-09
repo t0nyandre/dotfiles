@@ -1,0 +1,61 @@
+if empty(glob('~/.config/nvim/autoload/plug.vim'))
+  silent !curl -fLo ~/.config/nvim/autoload/plug.vim --create-dirs
+	\ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+endif
+
+call plug#begin('~/.config/nvim/plugged')
+" Navigation {{{
+" A tree explorer plugin for vim
+Plug 'scrooloose/nerdtree'
+
+" combine with netrw to create a delicious salad dressing
+Plug 'tpope/vim-vinegar'
+
+" project configuration via 'projections'
+Plug 'tpope/vim-projectionist'
+
+" A command-line fuzzy finder written in Go
+let g:fzf_command_prefix = 'FZF'
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+Plug 'junegunn/fzf.vim'
+
+" Active fork of kien/ctrlp.vim. Fuzzy file, buffer, mru, tag, etc finder.
+Plug 'ctrlpvim/ctrlp.vim'
+" }}}
+
+" UI Additions {{{
+" Colors {{{
+Plug 'dracula/vim', { 'as': 'dracula' }
+" }}}
+" lean & mean status/tabline for vim that's light as air
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
+" }}}
+
+" Vim plugin for the Perl module / CLI script 'ack'
+Plug 'mileszs/ack.vim'
+
+" True Sublime Text style multiple selections for Vim
+Plug 'terryma/vim-multiple-cursors'
+
+" Dark powered asynchronous completion framework for neovim/Vim8
+Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+Plug 'autozimu/LanguageClient-neovim', {
+    \ 'branch': 'next',
+    \ 'do': 'bash install.sh',
+    \ } " Client for the Language server
+Plug 'Shougo/neco-syntax'
+Plug 'Shougo/neco-vim'
+let g:deoplete#enable_at_startup = 1
+
+" Language specific {{{
+" Crystal {{{
+Plug 'rhysd/vim-crystal', { 'for': 'crystal' }
+" }}}
+" VimL {{{
+Plug 'ynkdir/vim-vimlparser', { 'for': 'vim' }
+Plug 'syngan/vim-vimlint', { 'for': 'vim' }
+" }}}
+" }}}
+call plug#end()
