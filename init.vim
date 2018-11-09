@@ -14,10 +14,11 @@ runtime! config/colors.vim
 " Plugin Configuration
 " ----------------------------------------
 
-runtime! config/plugin/airline.vim
+runtime! config/plugin/lightbar.vim
 runtime! config/plugin/langclient.vim 
 runtime! config/plugin/ack.vim
 runtime! config/plugin/nerdtree.vim
+runtime! config/plugin/fugitive.vim
 
 if has('gui_running')
   runtime! config/plugin/ctrlp.vim

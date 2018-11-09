@@ -28,13 +28,17 @@ Plug 'ctrlpvim/ctrlp.vim'
 " Colors {{{
 Plug 'dracula/vim', { 'as': 'dracula' }
 " }}}
-" lean & mean status/tabline for vim that's light as air
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
+" light and awesome statusline
+Plug 'itchyny/lightline.vim'
 " }}}
 
 " Vim plugin for the Perl module / CLI script 'ack'
 Plug 'mileszs/ack.vim'
+
+" a Git wrapper so awesome, it should be illegal; :Gblame, etc
+Plug 'tpope/vim-fugitive'
+Plug 'mhinz/vim-signify'
+Plug 'tpope/vim-rhubarb'
 
 " True Sublime Text style multiple selections for Vim
 Plug 'terryma/vim-multiple-cursors'

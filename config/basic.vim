@@ -34,6 +34,7 @@ set nowrap         " Line wrapping off
 set cmdheight=1    " Make the command area two lines high
 set noshowmode     " don't need to show mode since we have airline
 set numberwidth=4
+set laststatus=2
 set encoding=utf-8
 set lazyredraw
 " }}}

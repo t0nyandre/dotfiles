@@ -28,6 +28,9 @@ command! Wq wq
 " Edit vimrc with ,vi
 nmap <silent> <leader>vi :e ~/.vim/vimrc<CR>
 
+" Remove search highlight until next time
+nmap <silent> <leader><space> :noh<CR>
+
 " Navigating the language client
 nnoremap <silent> H :call LanguageClient#textDocument_hover()<CR>
 nnoremap <silent> gd :call LanguageClient#textDocument_definition()<CR>
