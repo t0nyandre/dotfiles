@@ -43,18 +43,22 @@ Plug 'tpope/vim-rhubarb'
 " True Sublime Text style multiple selections for Vim
 Plug 'terryma/vim-multiple-cursors'
 
-" Dark powered asynchronous completion framework for neovim/Vim8
-Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+" NCM2 completion manager. 
+Plug 'roxma/nvim-yarp'
+Plug 'ncm2/ncm2'
+Plug 'ncm2/ncm2-bufword'
+Plug 'ncm2/ncm2-path'
+Plug 'ncm2/ncm2-syntax'
+Plug 'ncm2/ncm2-neoinclude'
+Plug 'Shougo/neoinclude.vim'
+Plug 'Shougo/neco-syntax'
 Plug 'autozimu/LanguageClient-neovim', {
     \ 'branch': 'next',
     \ 'do': 'bash install.sh',
     \ } " Client for the Language server
-Plug 'Shougo/neco-syntax'
-Plug 'Shougo/neco-vim'
 
 " Developer icons for statusbar and nerdtree
 Plug 'ryanoasis/vim-devicons'
-let g:deoplete#enable_at_startup = 1
 
 " Language specific {{{
 " Crystal {{{
@@ -62,8 +66,6 @@ Plug 'rhysd/vim-crystal', { 'for': 'crystal' }
 " }}}
 " PHP {{{
 Plug 'StanAngeloff/php.vim', { 'for': 'php' }
-Plug 'phpactor/phpactor' ,  {'do': 'composer install', 'for': 'php'}
-Plug 'kristijanhusak/deoplete-phpactor', { 'for': 'php' }
 Plug 'roxma/LanguageServer-php-neovim',  {'do': 'composer install && composer run-script parse-stubs'}
 " }}}
 " VimL {{{

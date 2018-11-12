@@ -19,6 +19,7 @@ runtime! config/plugin/langclient.vim
 runtime! config/plugin/ack.vim
 runtime! config/plugin/nerdtree.vim
 runtime! config/plugin/fugitive.vim
+runtime! config/plugin/ncm2.vim
 
 if has('gui_running')
   runtime! config/plugin/ctrlp.vim
@@ -31,3 +32,4 @@ end
 " ----------------------------------------
 
 runtime! config/lang/crystal.vim
+runtime! config/lang/php.vim
