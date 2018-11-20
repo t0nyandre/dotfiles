@@ -124,8 +124,23 @@ Plug 'terryma/vim-multiple-cursors'
   let g:multi_cursor_prev_key = '<A-n>'
   let g:multi_cursor_skip_key = '<C-x>'
   let g:multi_cursor_quit_key = '<Esc>'
-Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-  let g:deoplete#enable_at_startup=1
+Plug 'roxma/nvim-yarp'
+Plug 'ncm2/ncm2'
+Plug 'ncm2/ncm2-bufword'
+Plug 'SirVer/ultisnips'
+Plug 'ncm2/ncm2-ultisnips'
+  let g:UltiSnipsJumpForwardTrigger	= "<c-j>"
+  let g:UltiSnipsJumpBackwardTrigger	= "<c-k>"
+  let g:UltiSnipsRemoveSelectModeMappings = 0
+Plug 'ncm2/ncm2-path'
+Plug 'ncm2/ncm2-syntax'
+Plug 'ncm2/ncm2-neoinclude'
+  autocmd BufEnter * call ncm2#enable_for_buffer()
+  set completeopt=noinsert,menuone,noselect
+  set shortmess+=c
+Plug 'ervandew/supertab'
+  let g:SuperTabMappingForward = '<s-tab>'                                                                                                                                                                                          
+  let g:SuperTabMappingBackward = '<tab>'
 Plug 'Shougo/neco-syntax'
 Plug 'Shougo/neco-vim'
 Plug 'Shougo/neoinclude.vim'
@@ -166,18 +181,18 @@ nmap <silent> <leader>vs :vsplit<CR>
 nmap <silent> <leader>sc :close<CR>
 
 " Navigate window splittings
-:tnoremap <A-h> <C-\><C-N><C-w>h
-:tnoremap <A-j> <C-\><C-N><C-w>j
-:tnoremap <A-k> <C-\><C-N><C-w>k
-:tnoremap <A-l> <C-\><C-N><C-w>l
-:inoremap <A-h> <C-\><C-N><C-w>h
-:inoremap <A-j> <C-\><C-N><C-w>j
-:inoremap <A-k> <C-\><C-N><C-w>k
-:inoremap <A-l> <C-\><C-N><C-w>l
-:nnoremap <A-h> <C-w>h
-:nnoremap <A-j> <C-w>j
-:nnoremap <A-k> <C-w>k
-:nnoremap <A-l> <C-w>l
+tnoremap <A-h> <C-\><C-N><C-w>h
+tnoremap <A-j> <C-\><C-N><C-w>j
+tnoremap <A-k> <C-\><C-N><C-w>k
+tnoremap <A-l> <C-\><C-N><C-w>l
+inoremap <A-h> <C-\><C-N><C-w>h
+inoremap <A-j> <C-\><C-N><C-w>j
+inoremap <A-k> <C-\><C-N><C-w>k
+inoremap <A-l> <C-\><C-N><C-w>l
+nnoremap <A-h> <C-w>h
+nnoremap <A-j> <C-w>j
+nnoremap <A-k> <C-w>k
+nnoremap <A-l> <C-w>l
 
 " Exiting terminal mode
 tnoremap <Esc> <C-\><C-n>
@@ -213,6 +228,10 @@ nnoremap <leader>gd :Gblame<CR>
 nnoremap <leader>gg :Gbrowse<CR>
 nnoremap <leader>gl :Glog<CR>
 nnoremap <leader>gv :Gitv<CR>
+
+" ncm2
+inoremap <c-c> <ESC>
+inoremap <silent> <expr> <CR> ncm2_ultisnips#expand_or("\<CR>", 'n')
 
 " LanguageClient-neovim
 nnoremap <silent> H :call LanguageClient#textDocument_hover()<CR>
