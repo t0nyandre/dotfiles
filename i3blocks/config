@@ -1,7 +1,0 @@
-color=#f3f4f5
-separator_block_width=15
-markup=none
-
-[time]
-command=echo -n "  "; date '+%a, %d %b %H:%M'
-interval=5
