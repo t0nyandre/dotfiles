@@ -34,7 +34,7 @@ font-2 = FontAwesome:size=8;0
 font-3 = NotoSans-Regular:size=8;-1
 font-4 = Unifont:size=5;0
 font-5 = Termsynu:size=7;0
-font-6 = Hasklug Nerd Font Mono:size=14;0
+font-6 = Hasklug Nerd Font Mono:size=16;2
 
 modules-left = i3
 modules-center = xwindow
@@ -123,7 +123,7 @@ index-sort = true
 ws-icon-0 = 3:ZSH;
 ws-icon-1 = 2:WWW;
 ws-icon-2 = 1:DEV;
-ws-icon-3 = 6:MUSIC;ﱘ
+ws-icon-3 = 6:FILES;
 ws-icon-4 = 4:DB;
 ws-icon-5 = 7:GFX;
 ws-icon-6 = 5:CHAT;
@@ -286,8 +286,8 @@ bar-progress-empty-foreground = #44
 type = internal/date
 interval = 5
 format-padding = 5
-format-background = #000
-format-foreground = #fff
+format-background = #8abeb7
+format-foreground = #222222
 date = %%{F#bb}%Y-%m-%d%%{F-}  %%{F#ee}%H:%M%%{F-}
 
 [module/volume]
@@ -318,14 +318,14 @@ ramp-headphones-foreground = #9f78e1
 
 [module/battery]
 type = internal/battery
-full-at = 98
-format-charging = %{T3}Battery <label-charging> %{T-}
-format-discharging = %{T3}Battery <label-discharging> %{T-}
-;format-full = %{T3}Battery <label-full>
-label-charging-font = 3
-label-discharging-font = 3
-label-full =
-;label-full-font = 3
+full-at = 100
+format-charging = %{T3}  <label-charging> %{T-}
+format-discharging = %{T3}  <label-discharging> %{T-}
+format-full = %{T3}  <label-full>
+label-charging-font = 6
+label-discharging-font = 6
+label-full-font = 6
+label-full = 100%
 
 [module/xwindow]
 type = internal/xwindow

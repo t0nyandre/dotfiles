@@ -46,7 +46,7 @@ bindsym $mod+Shift+q kill
 
 # Configure border style
 new_window pixel 1
-new_float normal
+new_float pixel 1
 
 # Hide borders
 hide_edge_borders none
@@ -115,7 +115,7 @@ set $ws2 "2:WWW"
 set $ws3 "3:ZSH"
 set $ws4 "4:DB"
 set $ws5 "5:CHAT"
-set $ws6 "6:MUSIC"
+set $ws6 "6:FILES"
 set $ws7 "7:GFX"
 set $ws8 "8:..."
 set $ws9 "9:..."
@@ -185,6 +185,11 @@ bindsym $mod+r mode "resize"
 
 exec_always --no-startup-id ~/.config/i3/polybar.sh &
 
+workspace $ws1 output HDMI1
+workspace $ws2 output eDP1
+workspace $ws3 output eDP1
+workspace $ws4 output HDMI1
+
 assign [class="^Code$"] $ws1
 exec --no-startup-id code
 assign [class="^Google-chrome$"] $ws2
@@ -192,6 +197,6 @@ exec --no-startup-id google-chrome-stable
 assign [class="^Termite$"] $ws3
 exec --no-startup-id termite
 assign [class="^DBeaver$"] $ws4
-exec --no-startup-id dbeaver
 assign [class="^discord$"] $ws5
-exec --no-startup-id discord
+assign [class="^Deluge$"] $ws6
+assign [class="^Pcmanfm$"] $ws6
