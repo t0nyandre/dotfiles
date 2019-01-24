@@ -43,6 +43,22 @@
      Plug 'sbdchd/neoformat'
      Plug 'neomake/neomake'
      Plug 'ervandew/supertab'
+     Plug 'machakann/vim-sandwich'
+     Plug 'tpope/vim-repeat'
+     Plug 'jparise/vim-graphql'
+     Plug 'ekalinin/Dockerfile.vim'
+     Plug 'stephpy/vim-yaml'
+     Plug 'elzr/vim-json'
+     Plug 'tpope/vim-dotenv'
+     Plug 'jiangmiao/auto-pairs'
+     Plug 'mhinz/vim-startify'
+     Plug 'peitalin/vim-jsx-typescript'
+
+     " Git integration
+     Plug 'tpope/vim-fugitive'
+     Plug 'tpope/vim-rhubarb'
+     Plug 'gregsexton/gitv', {'on': ['Gitv']}
+     Plug 'airblade/vim-gitgutter'
 "  }}}
 
    call plug#end()
@@ -57,7 +73,7 @@
 "  }}}
 
 "  Behaviors -------------------------------------------------- {{{
-"  Set persistent undos if not root user
+"    Set persistent undos if not root user
      if has('persistent_undo')
        if exists('$SUDO_USER')
          " don't create root-owned files
@@ -69,20 +85,20 @@
        endif
      endif
 
-"  Disable use of mouse
+"    Disable use of mouse
      set mouse=""
      set mousehide
 
-"  Open new splits to right and bottom
+"    Open new splits to right and bottom
      set splitbelow
      set splitright
 
-"  nvim - always use system clipboard (via pbcopy)
+"    nvim - always use system clipboard (via pbcopy)
      set clipboard+=unnamedplus
 "  }}}
 
 "  UI --------------------------------------------------------- {{{
-"  Make tabs two spaces wide. Use spaces, not tabs
+"    Make tabs two spaces wide. Use spaces, not tabs
      set tabstop=2
      set shiftwidth=2
      set expandtab
@@ -90,11 +106,11 @@
      set autoindent
      set nosmartindent
 
-"  General views
+"    General views
      set laststatus=2
      set cmdheight=2
 
-"  Better searching. Be case-insensitive unless I use uppercase
+"    Better searching. Be case-insensitive unless I use uppercase
      set ignorecase
      set smartcase
      set incsearch
@@ -108,41 +124,41 @@
        set grepformat=%f:%l:%c:%m
      endif
 
-"  Cancel hilight search
+"    Cancel hilight search
      noremap <silent><C-l> :<C-u>nohlsearch<CR><C-l>
 
-"  Enable relative line numbers
+"    Enable relative line numbers
      set number
      set relativenumber
 
-"  Tell Vim to automatically use absolute line numbers when we’re in insert mode
-"  and relative numbers when we’re in normal mode:
+"    Tell Vim to automatically use absolute line numbers when we’re in insert mode
+"    and relative numbers when we’re in normal mode:
      autocmd InsertEnter * :set norelativenumber
      autocmd InsertLeave * :set relativenumber
 
-"  Default encoding is utf-8
+"    Default encoding is utf-8
      set encoding=utf-8
 
-"  Disable bells
+"    Disable bells
      set belloff=all
      set novisualbell
 
-"  Show filename in the window titlebar
+"    Show filename in the window titlebar
      set title
 
-"  Start scrolling 5 lines before the horizontal window border
+"    Start scrolling 5 lines before the horizontal window border
      set scrolloff=5
 "  }}}
 
 "  System bindings -------------------------------------------- {{{
      let g:mapleader=','
 
-"  Split management
+"    Split management
      nmap <silent> <leader>hs :split<CR>
      nmap <silent> <leader>vs :vsplit<CR>
      nmap <silent> <leader>sc :close<CR>
 
-"  Navigate window splittings
+"    Navigate window splittings
      :tnoremap <A-h> <C-\><C-N><C-w>h
      :tnoremap <A-j> <C-\><C-N><C-w>j
      :tnoremap <A-k> <C-\><C-N><C-w>k
@@ -156,17 +172,20 @@
      :nnoremap <A-k> <C-w>k
      :nnoremap <A-l> <C-w>l
 
-"  Exiting terminal mode
+"    Exiting terminal mode
      tnoremap <Esc> <C-\><C-n>
 
-"  Moving lines
+"    Moving lines
      vnoremap <A-j> :m '>+1<CR>gv=gv
      vnoremap <A-k> :m '<-2<CR>gv=gv
 
-"  Remove search highlight until next time
+"    Quickly save file
+     nmap <silent> <leader>w :w<CR>
+
+"    Remove search highlight until next time
      nmap <silent> <leader><space> :noh<CR>
 
-"  Common Typos
+"    Common Typos
      command! W w
      command! Q q
      command! WQ wq
@@ -174,14 +193,14 @@
 "  }}}
 
 "  Plugin specific -------------------------------------------- {{{
-"  FZF.vim
+"    FZF.vim
      nnoremap <C-p> :Files<cr>
      nnoremap <leader>b :Buffers<cr>
 
-"  Neosnippet
+"    Neosnippet
      let g:neosnippet#snippets_directory='~/.config/nvim/snippets'
-   " Use C-k to select-and-expand a snippet from deoplete popup
-   " use C-n and C-p to select it.
+     " Use C-k to select-and-expand a snippet from deoplete popup
+     " use C-n and C-p to select it.
      imap <C-k>     <Plug>(neosnippet_expand_or_jump)
      smap <C-k>     <Plug>(neosnippet_expand_or_jump)
      xmap <C-k>     <Plug>(neosnippet_expand_target)
@@ -189,21 +208,28 @@
            \ '_': 1,
            \ }
 
-   " For conceal markers.
+     " For conceal markers.
      if has('conceal')
        set conceallevel=2 concealcursor=niv
      endif
 
-"  Neoformat
+"    Neoformat
      let g:neoformat_basic_format_trim = 1
      let g:neoformat_try_formatprg = 1
      let g:neoformat_only_msg_on_error = 1
 
-"  Supertab
+"    Gitgutter
+     if exists('&signcolumn')
+       set signcolumn=yes
+     else
+       let g:gitgutter_sign_column_always = 1
+     endif
+
+"    Supertab
      let g:SuperTabMappingForward = '<s-tab>'                                                                                                                                                                                          
      let g:SuperTabMappingBackward = '<tab>'     
 
-"  Neomake
+"    Neomake
      call neomake#configure#automake('rw', 1000)
      let g:neomake_warning_sign = {
        \ 'text': 'W',
@@ -214,18 +240,30 @@
        \ 'texthl': 'ErrorMsg',
        \ }
 
-"  LanguageClient-neovim
+"    LanguageClient-neovim
      set hidden
      let g:LanguageClient_serverCommands = {}
      nnoremap <silent> H :call LanguageClient#textDocument_hover()<CR>
      nnoremap <silent> <leader>gd :call LanguageClient#textDocument_definition()<CR>
      nnoremap <silent> <F2> :call LanguageClient#textDocument_rename()<CR>
+
+"    Auto-pairs
+     let g:AutoPairsFlyMode = 0
+     let g:AutoPairsShortcutBackInsert = '<M-b>'
 "  }}}
 
 "  Language specific ------------------------------------------ {{{
-"  TypeScript
+"    TypeScript
      let g:neomake_typescript_enabled_makers = ['tslint']
-     let g:neoformat_enabled_python = ['prettier']
+     let g:neoformat_enabled_typescript = ['prettier']
+     " set filetypes as typescript.tsx
+     autocmd BufNewFile,BufRead *.tsx,*.jsx set filetype=typescript.tsx
      autocmd BufWritePre *.ts,*.tsx Neoformat
      let g:LanguageClient_serverCommands.typescript = ['node', '~/.config/nvim/plugged/javascript-typescript-langserver/lib/language-server-stdio']
+     let g:LanguageClient_serverCommands["typescript.tsx"] = ['node', '~/.config/nvim/plugged/javascript-typescript-langserver/lib/language-server-stdio']
+
+
+"    JSON
+     autocmd BufNewFile,BufRead .prettierrc set syntax=json
+     let g:vim_json_syntax_conceal = 0
 "  }}}
