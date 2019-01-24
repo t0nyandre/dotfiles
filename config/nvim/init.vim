@@ -31,6 +31,7 @@
        let g:deoplete#enable_at_startup = 1
      Plug 'Shougo/neco-syntax'
      Plug 'Shougo/neco-vim'
+     Plug 'Shougo/neoinclude.vim'
      Plug 'zchee/deoplete-zsh'
      Plug 'Shougo/neosnippet.vim'
      Plug 'HerringtonDarkholme/yats.vim'
@@ -41,6 +42,7 @@
      Plug 'sourcegraph/javascript-typescript-langserver', { 'do': 'npm install && npm run build' }
      Plug 'sbdchd/neoformat'
      Plug 'neomake/neomake'
+     Plug 'ervandew/supertab'
 "  }}}
 
    call plug#end()
@@ -196,6 +198,10 @@
      let g:neoformat_basic_format_trim = 1
      let g:neoformat_try_formatprg = 1
      let g:neoformat_only_msg_on_error = 1
+
+"  Supertab
+     let g:SuperTabMappingForward = '<s-tab>'                                                                                                                                                                                          
+     let g:SuperTabMappingBackward = '<tab>'     
 
 "  Neomake
      call neomake#configure#automake('rw', 1000)
