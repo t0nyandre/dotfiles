@@ -142,6 +142,8 @@ bindsym $mod+Shift+7 move container to workspace $ws7
 bindsym $mod+Shift+8 move container to workspace $ws8
 bindsym $mod+Shift+9 move container to workspace $ws9
 
+bindsym Print exec flameshot gui
+
 # reload the configuration file
 bindsym $mod+Shift+c reload
 # restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
@@ -149,7 +151,7 @@ bindsym $mod+Shift+r restart
 # exit i3 (logs you out of your X session)
 bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -B 'Yes, exit i3' 'i3-msg exit'"
 
-bindsym $mod+Shift+w exec google-chrome-stable
+bindsym $mod+Shift+w exec firefox-developer-edition
 bindsym $mod+Mod1+l exec "i3lock -c 000000"
 
 # resize window (you can also use the mouse for that)
@@ -188,12 +190,14 @@ exec_always --no-startup-id ~/.config/i3/polybar.sh &
 workspace $ws1 output HDMI1
 workspace $ws2 output eDP1
 workspace $ws3 output eDP1
+workspace $ws5 output eDP1
 workspace $ws4 output HDMI1
 
 assign [class="^Code$"] $ws1
-exec --no-startup-id code
-assign [class="^Google-chrome$"] $ws2
-exec --no-startup-id google-chrome-stable
+assign [title="^tmux"] $ws1
+exec --no-startup-id termite --exec tmux
+assign [class="^Firefox Developer Edition$"] $ws2
+exec --no-startup-id firefox-developer-edition
 assign [class="^Termite$"] $ws3
 exec --no-startup-id termite
 assign [class="^DBeaver$"] $ws4
