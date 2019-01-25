@@ -24,29 +24,35 @@
    call plug#begin('~/.config/nvim/plugged')
      Plug 'chriskempson/base16-vim'
      Plug 'itchyny/lightline.vim'
-     Plug 'mileszs/ack.vim'
      Plug 'junegunn/fzf', { 'do': './install --bin' }
      Plug 'junegunn/fzf.vim'
-     Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-       let g:deoplete#enable_at_startup = 1
+     Plug 'ncm2/ncm2'
+     Plug 'roxma/nvim-yarp'
+     Plug 'ncm2/ncm2-bufword'
+     Plug 'ncm2/ncm2-path'
      Plug 'Shougo/neco-syntax'
+     Plug 'ncm2/ncm2-syntax'
      Plug 'Shougo/neco-vim'
      Plug 'Shougo/neoinclude.vim'
-     Plug 'zchee/deoplete-zsh'
+     Plug 'ncm2/ncm2-neoinclude'
      Plug 'Shougo/neosnippet.vim'
+     Plug 'ncm2/ncm2-neosnippet'
+     Plug 'kien/rainbow_parentheses.vim'
      Plug 'HerringtonDarkholme/yats.vim'
+     Plug 'mhartington/nvim-typescript', {'do': './install.sh'}
+     Plug 'Shougo/echodoc.vim'
      Plug 'autozimu/LanguageClient-neovim', {
       \ 'branch': 'next',
       \ 'do': 'bash install.sh',
       \ }
-     Plug 'sourcegraph/javascript-typescript-langserver', { 'do': 'npm install && npm run build' }
-     Plug 'sbdchd/neoformat'
-     Plug 'neomake/neomake'
+     Plug 'w0rp/ale'
+     Plug 'tpope/vim-commentary'
      Plug 'ervandew/supertab'
      Plug 'machakann/vim-sandwich'
      Plug 'tpope/vim-repeat'
      Plug 'jparise/vim-graphql'
      Plug 'ekalinin/Dockerfile.vim'
+     Plug 'terryma/vim-multiple-cursors'
      Plug 'stephpy/vim-yaml'
      Plug 'elzr/vim-json'
      Plug 'tpope/vim-dotenv'
@@ -108,7 +114,7 @@
 
 "    General views
      set laststatus=2
-     set cmdheight=2
+     set cmdheight=1
 
 "    Better searching. Be case-insensitive unless I use uppercase
      set ignorecase
@@ -119,22 +125,13 @@
 
      if executable('rg')
        set grepprg=rg\ --vimgrep
-     elseif executable('ack')
-       set grepprg=ack\ --nogroup\ --column\ --smart-case\ --nocolor\ --follow\ $*
-       set grepformat=%f:%l:%c:%m
      endif
 
-"    Cancel hilight search
+"    Cancel highlight search
      noremap <silent><C-l> :<C-u>nohlsearch<CR><C-l>
 
 "    Enable relative line numbers
      set number
-     set relativenumber
-
-"    Tell Vim to automatically use absolute line numbers when we’re in insert mode
-"    and relative numbers when we’re in normal mode:
-     autocmd InsertEnter * :set norelativenumber
-     autocmd InsertLeave * :set relativenumber
 
 "    Default encoding is utf-8
      set encoding=utf-8
@@ -159,22 +156,32 @@
      nmap <silent> <leader>sc :close<CR>
 
 "    Navigate window splittings
-     :tnoremap <A-h> <C-\><C-N><C-w>h
-     :tnoremap <A-j> <C-\><C-N><C-w>j
-     :tnoremap <A-k> <C-\><C-N><C-w>k
-     :tnoremap <A-l> <C-\><C-N><C-w>l
-     :inoremap <A-h> <C-\><C-N><C-w>h
-     :inoremap <A-j> <C-\><C-N><C-w>j
-     :inoremap <A-k> <C-\><C-N><C-w>k
-     :inoremap <A-l> <C-\><C-N><C-w>l
-     :nnoremap <A-h> <C-w>h
-     :nnoremap <A-j> <C-w>j
-     :nnoremap <A-k> <C-w>k
-     :nnoremap <A-l> <C-w>l
+     :tnoremap <C-h> <C-\><C-N><C-w>h
+     :tnoremap <C-j> <C-\><C-N><C-w>j
+     :tnoremap <C-k> <C-\><C-N><C-w>k
+     :tnoremap <C-l> <C-\><C-N><C-w>l
+     :inoremap <C-h> <C-\><C-N><C-w>h
+     :inoremap <C-j> <C-\><C-N><C-w>j
+     :inoremap <C-k> <C-\><C-N><C-w>k
+     :inoremap <C-l> <C-\><C-N><C-w>l
+     :nnoremap <C-h> <C-w>h
+     :nnoremap <C-j> <C-w>j
+     :nnoremap <C-k> <C-w>k
+     :nnoremap <C-l> <C-w>l
 
-"    Exiting terminal mode
-     tnoremap <Esc> <C-\><C-n>
+"    Escape with qq
+     inoremap qq <Esc>
+     vnoremap qq <Esc>
+     nnoremap qq <Esc>
+     " Escape terminal with qq
+     tnoremap qq <C-\><C-n>
 
+"    Disable arrow keys
+     noremap <Up> <NOP>
+     noremap <Down> <NOP>
+     noremap <Left> <NOP>
+     noremap <Right> <NOP>
+     
 "    Moving lines
      vnoremap <A-j> :m '>+1<CR>gv=gv
      vnoremap <A-k> :m '<-2<CR>gv=gv
@@ -199,11 +206,8 @@
 
 "    Neosnippet
      let g:neosnippet#snippets_directory='~/.config/nvim/snippets'
-     " Use C-k to select-and-expand a snippet from deoplete popup
-     " use C-n and C-p to select it.
-     imap <C-k>     <Plug>(neosnippet_expand_or_jump)
-     smap <C-k>     <Plug>(neosnippet_expand_or_jump)
-     xmap <C-k>     <Plug>(neosnippet_expand_target)
+     " Press enter key to trigger snippet expansion
+     inoremap <silent> <expr> <CR> ncm2_neosnippet#expand_or("\<CR>", 'n')
      let g:neosnippet#disable_runtime_snippets = {
            \ '_': 1,
            \ }
@@ -212,11 +216,18 @@
      if has('conceal')
        set conceallevel=2 concealcursor=niv
      endif
-
-"    Neoformat
-     let g:neoformat_basic_format_trim = 1
-     let g:neoformat_try_formatprg = 1
-     let g:neoformat_only_msg_on_error = 1
+     
+"    ncm2
+     autocmd BufEnter * call ncm2#enable_for_buffer()
+     set completeopt=noinsert,menuone,noselect
+     " suppress the annoying 'match x of y', 'The only match' and 'Pattern not
+     " found' messages
+     set shortmess+=c
+     " CTRL-C doesn't trigger the InsertLeave autocmd . map to <ESC> instead.
+     inoremap <c-c> <ESC>
+     " When the <Enter> key is pressed while the popup menu is visible close 
+     " the menu and also start a new line.
+     inoremap <expr> <CR> (pumvisible() ? "\<c-y>\<cr>" : "\<CR>")
 
 "    Gitgutter
      if exists('&signcolumn')
@@ -229,38 +240,58 @@
      let g:SuperTabMappingForward = '<s-tab>'                                                                                                                                                                                          
      let g:SuperTabMappingBackward = '<tab>'     
 
-"    Neomake
-     call neomake#configure#automake('rw', 1000)
-     let g:neomake_warning_sign = {
-       \ 'text': 'W',
-       \ 'texthl': 'WarningMsg',
-       \ }
-     let g:neomake_error_sign = {
-       \ 'text': 'E',
-       \ 'texthl': 'ErrorMsg',
-       \ }
+"    A.L.E.
+     let g:ale_fixers = {
+         \   '*': ['remove_trailing_lines', 'trim_whitespace'],
+         \   'typescript': ['prettier'],
+         \   'typescript.tsx': ['prettier'],
+         \ }
+
+     let g:ale_linters = {
+         \   'typescript': ['tslint', 'tsserver'],
+         \   'typescript.tsx': ['tslint', 'tsserver'],
+         \ }
+
+     let g:ale_linters_explicit = 1
+     let g:ale_sign_error = '!!'
+     let g:ale_sign_warning = '?'
+
+     let g:ale_echo_msg_error_str = '!!'
+     let g:ale_echo_msg_warning_str = '?'
+     let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
+
+     let g:ale_list_window_size = 5
+
+     nmap <silent> <C-k> <Plug>(ale_previous_wrap)
+     nmap <silent> <C-j> <Plug>(ale_next_wrap)
+
+     nmap <silent> <leader>af :ALEFix<CR>
 
 "    LanguageClient-neovim
      set hidden
-     let g:LanguageClient_serverCommands = {}
-     nnoremap <silent> H :call LanguageClient#textDocument_hover()<CR>
-     nnoremap <silent> <leader>gd :call LanguageClient#textDocument_definition()<CR>
-     nnoremap <silent> <F2> :call LanguageClient#textDocument_rename()<CR>
+     " let g:LanguageClient_serverCommands = {}
+     " nnoremap <silent> H :call LanguageClient#textDocument_hover()<CR>
+     " nnoremap <silent> <leader>gd :call LanguageClient#textDocument_definition()<CR>
+     " nnoremap <silent> <F2> :call LanguageClient#textDocument_rename()<CR>
 
 "    Auto-pairs
      let g:AutoPairsFlyMode = 0
      let g:AutoPairsShortcutBackInsert = '<M-b>'
+
+"    Rainbow parantheses
+     au VimEnter * RainbowParenthesesToggle
+     au Syntax * RainbowParenthesesLoadRound
+     au Syntax * RainbowParenthesesLoadSquare
+     au Syntax * RainbowParenthesesLoadBraces     
 "  }}}
 
 "  Language specific ------------------------------------------ {{{
 "    TypeScript
-     let g:neomake_typescript_enabled_makers = ['tslint']
-     let g:neoformat_enabled_typescript = ['prettier']
      " set filetypes as typescript.tsx
      autocmd BufNewFile,BufRead *.tsx,*.jsx set filetype=typescript.tsx
-     autocmd BufWritePre *.ts,*.tsx Neoformat
-     let g:LanguageClient_serverCommands.typescript = ['node', '~/.config/nvim/plugged/javascript-typescript-langserver/lib/language-server-stdio']
-     let g:LanguageClient_serverCommands["typescript.tsx"] = ['node', '~/.config/nvim/plugged/javascript-typescript-langserver/lib/language-server-stdio']
+     autocmd BufWritePre *.ts,*.tsx,*.jsx ALEFix
+     " let g:LanguageClient_serverCommands.typescript = ['node', '~/.config/nvim/plugged/javascript-typescript-langserver/lib/language-server-stdio']
+     " let g:LanguageClient_serverCommands["typescript.tsx"] = ['node', '~/.config/nvim/plugged/javascript-typescript-langserver/lib/language-server-stdio']
 
 
 "    JSON
