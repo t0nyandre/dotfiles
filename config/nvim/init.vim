@@ -1,11 +1,11 @@
 " - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-"| | |  _  |               |_   _|    (_) | | | | (_)          
-"| |_| |/' |_ __  _   _ ___  | | _ __  _| |_| | | |_ _ __ ___  
-"| __|  /| | '_ \| | | / __| | || '_ \| | __| | | | | '_ ` _ \ 
+"| | |  _  |               |_   _|    (_) | | | | (_)
+"| |_| |/' |_ __  _   _ ___  | | _ __  _| |_| | | |_ _ __ ___
+"| __|  /| | '_ \| | | / __| | || '_ \| | __| | | | | '_ ` _ \
 "| |_\ |_/ / | | | |_| \__ \_| || | | | | |_\ \_/ / | | | | | |
 " \__|\___/|_| |_|\__, |___/\___/_| |_|_|\__|\___/|_|_| |_| |_|
 " - - - - - - - - -_-/ |- - - - - - - - - - - - - - - - - - - -
-"                 |___/     
+"                 |___/
 "
 "  Author:  Tony André Haugen
 "  Web:     https://tonyandre.co
@@ -33,11 +33,13 @@
      Plug 'Shougo/neco-syntax'
      Plug 'ncm2/ncm2-syntax'
      Plug 'Shougo/neco-vim'
+     Plug 'scrooloose/nerdtree'
+     Plug 'ryanoasis/vim-devicons'
+     Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
      Plug 'Shougo/neoinclude.vim'
      Plug 'ncm2/ncm2-neoinclude'
      Plug 'Shougo/neosnippet.vim'
      Plug 'ncm2/ncm2-neosnippet'
-     Plug 'kien/rainbow_parentheses.vim'
      Plug 'HerringtonDarkholme/yats.vim'
      Plug 'mhartington/nvim-typescript', {'do': './install.sh'}
      Plug 'Shougo/echodoc.vim'
@@ -181,7 +183,7 @@
      noremap <Down> <NOP>
      noremap <Left> <NOP>
      noremap <Right> <NOP>
-     
+
 "    Moving lines
      vnoremap <A-j> :m '>+1<CR>gv=gv
      vnoremap <A-k> :m '<-2<CR>gv=gv
@@ -216,7 +218,7 @@
      if has('conceal')
        set conceallevel=2 concealcursor=niv
      endif
-     
+
 "    ncm2
      autocmd BufEnter * call ncm2#enable_for_buffer()
      set completeopt=noinsert,menuone,noselect
@@ -225,7 +227,7 @@
      set shortmess+=c
      " CTRL-C doesn't trigger the InsertLeave autocmd . map to <ESC> instead.
      inoremap <c-c> <ESC>
-     " When the <Enter> key is pressed while the popup menu is visible close 
+     " When the <Enter> key is pressed while the popup menu is visible close
      " the menu and also start a new line.
      inoremap <expr> <CR> (pumvisible() ? "\<c-y>\<cr>" : "\<CR>")
 
@@ -237,8 +239,8 @@
      endif
 
 "    Supertab
-     let g:SuperTabMappingForward = '<s-tab>'                                                                                                                                                                                          
-     let g:SuperTabMappingBackward = '<tab>'     
+     let g:SuperTabMappingForward = '<s-tab>'
+     let g:SuperTabMappingBackward = '<tab>'
 
 "    A.L.E.
      let g:ale_fixers = {
@@ -262,14 +264,14 @@
 
      let g:ale_list_window_size = 5
 
-     nmap <silent> <C-k> <Plug>(ale_previous_wrap)
-     nmap <silent> <C-j> <Plug>(ale_next_wrap)
+     nmap <silent> <A-k> <Plug>(ale_previous_wrap)
+     nmap <silent> <A-j> <Plug>(ale_next_wrap)
 
      nmap <silent> <leader>af :ALEFix<CR>
 
 "    LanguageClient-neovim
      set hidden
-     " let g:LanguageClient_serverCommands = {}
+     let g:LanguageClient_serverCommands = {}
      " nnoremap <silent> H :call LanguageClient#textDocument_hover()<CR>
      " nnoremap <silent> <leader>gd :call LanguageClient#textDocument_definition()<CR>
      " nnoremap <silent> <F2> :call LanguageClient#textDocument_rename()<CR>
@@ -278,11 +280,80 @@
      let g:AutoPairsFlyMode = 0
      let g:AutoPairsShortcutBackInsert = '<M-b>'
 
-"    Rainbow parantheses
-     au VimEnter * RainbowParenthesesToggle
-     au Syntax * RainbowParenthesesLoadRound
-     au Syntax * RainbowParenthesesLoadSquare
-     au Syntax * RainbowParenthesesLoadBraces     
+"    NERDTree
+
+     let g:NERDTreeShowHidden = 1
+     let g:NERDTreeWinSize = 35
+
+     " Keep the tree sync on file deletion or rename.
+     let g:NERDTreeAutoDeleteBuffer = 1
+
+     " Disable the help text.
+     let g:NERDTreeMinimalUI = 1
+
+     " Hide some files and folders.
+     let g:NERDTreeIgnore = [
+           \ '^\.DS_Store$[[file]]',
+           \ '^\.git$[[dir]]',
+           \ '^node_modules$[[dir]]',
+           \ '^vendor$[[dir]]'
+           \ ]
+
+     " Use natural sort order.
+     let g:NERDTreeNaturalSort = 1
+
+     " Change arrow icons for folders.
+     let g:NERDTreeDirArrowExpandable = "\u00a0"
+     let g:NERDTreeDirArrowCollapsible = "\u00a0"
+
+     " Change default statusline.
+     let g:NERDTreeStatusline = '%{kutsan#statusline#nerdtree()}'
+
+     " Make colors of directory icons with the same as directory names.
+     highlight! link NERDTreeFlags NERDTreeDir
+
+     " Define mappings.
+     nnoremap <silent> <Leader>n :packadd nerdtree <Bar> NERDTreeToggle <Bar> wincmd p<Enter>
+     nnoremap <silent> <Leader>f :packadd nerdtree <Bar> NERDTreeFind<Enter>
+
+     augroup nerdtreesettings
+       autocmd!
+
+       " Set common options.
+       autocmd FileType nerdtree
+             \ setlocal
+             \ nolist
+             \ nocursorline
+             \ signcolumn=no
+             \ conceallevel=3 concealcursor=nvic
+
+       " Hide current working directory line.
+       autocmd FileType nerdtree syntax match NERDTreeHideCWD #^[</].*$# conceal
+
+       " Hide slashes after each directory node.
+       autocmd FileType nerdtree syntax match NERDTreeDirSlash #/$# conceal containedin=NERDTreeDir contained
+     augroup end
+
+     let g:DevIconsEnableFoldersOpenClose = 1
+     let g:WebDevIconsUnicodeDecorateFolderNodes = 1
+
+     " Use one space after a glyph instead of two.
+     let g:WebDevIconsNerdTreeAfterGlyphPadding = ' '
+
+     " Set default file and directory icons.
+     let g:WebDevIconsUnicodeDecorateFileNodesDefaultSymbol = ''
+     let g:WebDevIconsUnicodeDecorateFolderNodesDefaultSymbol = ''
+     let g:DevIconsDefaultFolderOpenSymbol = ''
+
+     " Set custom icons.
+     let g:WebDevIconsUnicodeDecorateFileNodesExtensionSymbols = {
+           \ 'html': '',
+           \ 'css': ''
+           \ }
+     let g:WebDevIconsUnicodeGlyphDoubleWidth = 1
+     let g:WebDevIconsUnicodeDecorateFileNodesExactSymbols = {
+           \ 'docker-compose.yml': ''
+           \ }
 "  }}}
 
 "  Language specific ------------------------------------------ {{{
