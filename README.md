@@ -10,4 +10,5 @@ Install config files
   $ ln -s ~/.dotfiles/config/i3 ~/.config
   $ ln -s ~/.dotfiles/config/polybar ~/.config
   $ ln -s ~/.dotfiles/config/termite ~/.config
+  $ ln -s ~/.dotfiles/config/nvim ~/.config
 ~~~
