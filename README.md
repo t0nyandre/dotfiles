@@ -12,3 +12,8 @@ Install config files
   $ ln -s ~/.dotfiles/config/termite ~/.config
   $ ln -s ~/.dotfiles/config/nvim ~/.config
 ~~~
+
+Install zsh related files
+~~~ sh
+  $ ln -s ~/.dotfiles/zshrc ~/.zshrc
+~~~
