@@ -4,3 +4,4 @@ config/nvim/plugged/
 !config/nvim/plugged/.gitkeep
 config/nvim/autoload/
 !config/nvim/autoload/.gitkeep
+.swp
