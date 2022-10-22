@@ -1,5 +1,5 @@
-local null_ls_status_ok, null_ls = pcall(require, "null-ls")
-if not null_ls_status_ok then
+local ok, null_ls = pcall(require, "null-ls")
+if not ok then
     return
 end
 
@@ -14,7 +14,12 @@ null_ls.setup {
         formatting.prettier.with {
             extra_filetypes = { "toml" },
         },
-        formatting.stylua,
+        formatting.stylua.with {
+            extra_args = {
+                "--indent_type", "Spaces",
+                "--call_parentheses", "NoSingleTable",
+            }
+        },
         formatting.xmllint,
     },
 }

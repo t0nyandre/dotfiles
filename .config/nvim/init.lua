@@ -1,17 +1,27 @@
-require("config.options")
-require("config.keymaps")
-require("config.plugins")
-require("config.autocommands")
-require("config.colorscheme")
-require("config.cmp")
-require("config.lsp")
-require("config.telescope")
-require("config.treesitter")
-require("config.autopairs")
-require("config.comment")
-require("config.gitsigns")
-require("config.nvim-tree")
-require("config.bufferline")
-require("config.lualine")
-require("config.project")
-require("config.impatient")
+vim.defer_fn(function()
+	pcall(require, "impatient")
+end, 0)
+
+-- add binaries installed by mason.nvim to path
+local is_windows = vim.loop.os_uname().sysname == "Windows_NT"
+vim.env.PATH = vim.env.PATH .. (is_windows and ";" or ":") .. vim.fn.stdpath "data" .. "/mason/bin"
+
+-- Core settings
+require("core.options")
+require("core.mappings")
+require("core.autocommands")
+-- Install plugins
+require("plugins")
+-- Config for plugins
+require("plugins.colorscheme")
+require("plugins.cmp")
+require("plugins.lsp")
+require("plugins.telescope")
+require("plugins.treesitter")
+require("plugins.autopairs")
+require("plugins.nvimtree")
+require("plugins.comment")
+require("plugins.gitsigns")
+require("plugins.lualine")
+require("plugins.bufferline")
+require("plugins.impatient")

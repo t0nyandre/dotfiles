@@ -1,9 +1,9 @@
-local status_ok, comment = pcall(require, "Comment")
-if not status_ok then
-	return
+local ok, nvim_comment = pcall(require, "Comment")
+if not ok then
+    return
 end
 
-comment.setup({
+nvim_comment.setup({
 	pre_hook = function(ctx)
 		if vim.bo.filetype == "typescriptreact" then
 			local U = require("Comment.utils")

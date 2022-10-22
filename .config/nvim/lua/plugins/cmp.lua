@@ -1,10 +1,8 @@
-local cmp_status_ok, cmp = pcall(require, "cmp")
-if not cmp_status_ok then
+local cmp_ok, cmp = pcall(require, "cmp")
+local snip_ok, luasnip = pcall(require, "luasnip")
+if not cmp_ok then
     return
-end
-
-local snip_status_ok, luasnip = pcall(require, "luasnip")
-if not snip_status_ok then
+elseif not snip_ok then
     return
 end
 
@@ -59,6 +57,10 @@ cmp.setup({
         ["<C-e>"] = cmp.mapping({
             i = cmp.mapping.abort(),
             c = cmp.mapping.close(),
+        }),
+        ["<CR>"] = cmp.mapping.confirm({
+          behavior = cmp.ConfirmBehavior.Replace,
+          select = true,
         }),
         ["<Tab>"] = cmp.mapping(function(fallback)
 			if cmp.visible() then

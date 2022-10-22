@@ -1,5 +1,5 @@
-local status_ok, lualine = pcall(require, "lualine")
-if not status_ok then
+local ok, lualine = pcall(require, "lualine")
+if not ok then
 	return
 end
 
@@ -25,7 +25,7 @@ local diff = {
 
 local filetype = {
 	"filetype",
-	icons_enabled = false,
+	icons_enabled = true,
 }
 
 local location = {
