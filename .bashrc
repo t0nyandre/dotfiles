@@ -121,3 +121,4 @@ fi
 
 alias dot='/usr/bin/git --git-dir=/home/t0nyandre/.dotfiles/ --work-tree=/home/t0nyandre'
 PATH=$(echo "$PATH" | sed -e 's%:/mnt/c/Program Files/nodejs%%')
+VIMRC=$HOME/.config/nvim/init.lua
