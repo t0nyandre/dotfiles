@@ -37,18 +37,14 @@ if not config_ok then
     return
 end
 
-local opts = {}
-
 for _, server in pairs(servers) do
-    opts = {
+    local opts = {
         on_attach = require("plugins.lsp.handlers").on_attach,
         capabilities = require("plugins.lsp.handlers").capabilities,
     }
-    
-    server = vim.split(server, "@")[1]
 
-    local ok, conf_opts = pcall(require, "plugins.lsp.settings." .. server)
-    if ok then
+    local conf_ok, conf_opts = pcall(require, "plugins.lsp.settings." .. server)
+    if conf_ok then
         opts = vim.tbl_deep_extend("force", conf_opts, opts)
     end
 
