@@ -1,4 +1,4 @@
-local tree_ok, treesitter = pcall(require, "nvim-treesitter")
+local tree_ok, _ = pcall(require, "nvim-treesitter")
 local config_ok, configs = pcall(require, "nvim-treesitter.configs")
 if not (tree_ok or config_ok) then
   return
@@ -7,6 +7,8 @@ end
 configs.setup({
   ensure_installed = {
     "lua",
+    "rust",
+    "toml",
     "markdown",
     "markdown_inline",
     "bash"

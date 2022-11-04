@@ -15,5 +15,6 @@ null_ls.setup({
       extra_filetypes = { "toml" },
     },
     formatting.stylua,
+    formatting.rustfmt,
   },
 })

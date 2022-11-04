@@ -8,6 +8,7 @@ local servers = {
   "yamlls",
   "lemminx",
   "rust_analyzer",
+  "taplo",
 }
 
 local settings = {
@@ -53,12 +54,52 @@ for _, server in pairs(servers) do
     on_attach = require("config.lsp.handlers").on_attach,
     capabilities = require("config.lsp.handlers").capabilities,
   }
-  server = vim.split(server, "@")[1]
 
-  local require_ok, conf_opts = pcall(require, "config.lsp.settings." ..server)
-  if require_ok then
-    opts = vim.tbl_deep_extend("force", conf_opts, opts)
+  if server == "sumneko_lua" then
+    local sumneko_opts = require("config.lsp.settings.sumneko_lua")
+    opts = vim.tbl_deep_extend("force", sumneko_opts, opts)
+  end
+
+  if server == "rust_analyzer" then
+    local ok, rust_tools = pcall(require, "rust-tools")
+    if not ok then
+      goto continue
+    end
+
+    rust_tools.setup({
+      tools = {
+        on_initialized = function()
+          vim.cmd[[
+            autocmd BufEnter,CursorHold,InsertLeave,BufWritePost *.rs silent! lua vim.lsp.codelens.refresh()
+          ]]
+        end,
+        runnables = {
+          use_telescope = true,
+        },
+        inlay_hints = {
+          auto = true,
+          show_parameter_hints = true,
+          parameter_hints_prefix = "",
+          other_hints_prefix = "",
+        },
+        server = {
+          settings = {
+            ["rust-analyzer"] = {
+              lens = {
+                enable = true,
+              },
+              checkOnSave = {
+                command = "clippy",
+              },
+            },
+          },
+        },
+      },
+    })
+
+    goto continue
   end
 
   lspconfig[server].setup(opts)
+  ::continue::
 end

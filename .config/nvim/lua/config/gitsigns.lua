@@ -4,6 +4,8 @@ if not ok then
 end
 
 local keymap = vim.keymap.set
+local opts = { silent = true }
+keymap("n", "<leader>gg", "<cmd>lua _LAZYGIT_TOGGLE()<CR>", opts)
 
 gitsigns.setup({
   signs = {
