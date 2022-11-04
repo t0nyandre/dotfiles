@@ -1,16 +1,13 @@
-local tree, nvimtree = pcall(require, "nvim-tree")
-local config, nvim_tree_config = pcall(require, "nvim-tree.config")
-if not tree then
-    return
-elseif not config then
-    return
+local tree_ok, nvimtree = pcall(require, "nvim-tree")
+local config_ok, nvim_tree_config = pcall(require, "nvim-tree.config")
+if not (tree_ok or config_ok) then
+  return
 end
 
+-- Custom keymapping
 local keymap = vim.keymap.set
 local opts = { silent = true }
--- toggle
 keymap("n", "<C-n>", ":NvimTreeToggle<CR>", opts)
--- focus
 keymap("n", "<leader>e", ":NvimTreeFocus<CR>", opts)
 
 local tree_cb = nvim_tree_config.nvim_tree_callback
@@ -29,24 +26,30 @@ local options = {
   update_cwd = true,
   update_focused_file = {
     enable = true,
-    update_cwd = true,
+    update_cwd = false,
+  },
+  diagnostics = {
+    enable = true,
+    show_on_dirs = true,
+    icons = {
+      hint = "",
+      info = "",
+      warning = "",
+      error = "",
+    },
   },
   view = {
-    adaptive_size = true,
     side = "left",
-    width = 32,
-    hide_root_folder = true,
+    width = 35,
     mappings = {
-        list = {
-            { key = { "l", "<CR>", "o" }, cb = tree_cb "edit" },
-            { key = "h", cb = tree_cb "close_node" },
-            { key = "v", cb = tree_cb "vsplit" },
+      list = {
+        { key = "v", cb = tree_cb("vsplit") },
+        { key = "h", cb = tree_cb("split") },
       },
     },
   },
   git = {
-    enable = true,
-    show_on_dirs = true,
+    enable = false,
     ignore = true,
   },
   filesystem_watchers = {
