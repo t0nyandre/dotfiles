@@ -7,32 +7,32 @@
 --   | $$ /$$| $$ \ $$$| $$  | $$| $$  | $$ /$$__  $$| $$  | $$| $$  | $$| $$      | $$_____/
 --   |  $$$$/|  $$$$$$/| $$  | $$|  $$$$$$$|  $$$$$$$| $$  | $$|  $$$$$$$| $$      |  $$$$$$$
 --    \___/   \______/ |__/  |__/ \____  $$ \_______/|__/  |__/ \_______/|__/       \_______/
---                                /$$  | $$   file: init.lua
+--                                /$$  | $$   file: indentline.lua
 --                               |  $$$$$$/   url: github.com/t0nyandre
 --                                \______/
 --
-local status_ok, impatient = pcall(require, "impatient")
+local status_ok, blankline = pcall(require, "indent_blankline")
 if not status_ok then
 	return
 end
 
-impatient.enable_profile()
-require("settings.options")
-require("settings.keymaps")
-require("settings.plugins")
-require("settings.autocommands")
-require("settings.colorscheme")
-require("settings.gopher")
-require("settings.cmp")
-require("settings.dap")
-require("settings.lsp")
-require("settings.telescope")
-require("settings.autopairs")
-require("settings.comment")
-require("settings.indentline")
-require("settings.nvimtree")
-require("settings.gitsigns")
-require("settings.illuminate")
-require("settings.lualine")
-require("settings.term")
-require("settings.treesitter")
+blankline.setup({
+	indentLine_enabled = 1,
+	filetype_exclude = {
+		"help",
+		"terminal",
+		"alpha",
+		"packer",
+		"lspinfo",
+		"TelescopePrompt",
+		"TelescopeResults",
+		"mason",
+		"",
+	},
+	buftype_exclude = { "terminal", "nofile" },
+	show_trailing_blankline_indent = false,
+	show_first_indent_level = false,
+	show_current_context = true,
+	show_current_context_start = false,
+	use_treesitter = true,
+})

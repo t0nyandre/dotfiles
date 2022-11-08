@@ -11,28 +11,36 @@
 --                               |  $$$$$$/   url: github.com/t0nyandre
 --                                \______/
 --
-local status_ok, impatient = pcall(require, "impatient")
+local status_ok, npairs = pcall(require, "nvim-autopairs")
 if not status_ok then
 	return
 end
 
-impatient.enable_profile()
-require("settings.options")
-require("settings.keymaps")
-require("settings.plugins")
-require("settings.autocommands")
-require("settings.colorscheme")
-require("settings.gopher")
-require("settings.cmp")
-require("settings.dap")
-require("settings.lsp")
-require("settings.telescope")
-require("settings.autopairs")
-require("settings.comment")
-require("settings.indentline")
-require("settings.nvimtree")
-require("settings.gitsigns")
-require("settings.illuminate")
-require("settings.lualine")
-require("settings.term")
-require("settings.treesitter")
+npairs.setup({
+	check_ts = true, -- treesitter integration
+	disable_filetype = { "TelescopePrompt", "vim" },
+	ts_config = {
+		lua = { "string", "source" },
+		javascript = { "string", "template_string" },
+	},
+
+	fast_wrap = {
+		map = "<M-e>",
+		chars = { "{", "[", "(", '"', "'" },
+		pattern = string.gsub([[ [%'%"%)%>%]%)%}%,] ]], "%s+", ""),
+		offset = 0, -- Offset from pattern match
+		end_key = "$",
+		keys = "qwertyuiopzxcvbnmasdfghjkl",
+		check_comma = true,
+		highlight = "PmenuSel",
+		highlight_grey = "LineNr",
+	},
+})
+
+local cmp_autopairs = require("nvim-autopairs.completion.cmp")
+local cmp_status_ok, cmp = pcall(require, "cmp")
+if not cmp_status_ok then
+	return
+end
+
+cmp.event:on("confirm_done", cmp_autopairs.on_confirm_done({}))

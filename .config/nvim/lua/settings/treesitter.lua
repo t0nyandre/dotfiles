@@ -11,28 +11,44 @@
 --                               |  $$$$$$/   url: github.com/t0nyandre
 --                                \______/
 --
-local status_ok, impatient = pcall(require, "impatient")
-if not status_ok then
+local tree_status_ok, _ = pcall(require, "nvim-treesitter")
+local config_status_ok, configs = pcall(require, "nvim-treesitter.configs")
+if not (tree_status_ok or config_status_ok) then
 	return
 end
 
-impatient.enable_profile()
-require("settings.options")
-require("settings.keymaps")
-require("settings.plugins")
-require("settings.autocommands")
-require("settings.colorscheme")
-require("settings.gopher")
-require("settings.cmp")
-require("settings.dap")
-require("settings.lsp")
-require("settings.telescope")
-require("settings.autopairs")
-require("settings.comment")
-require("settings.indentline")
-require("settings.nvimtree")
-require("settings.gitsigns")
-require("settings.illuminate")
-require("settings.lualine")
-require("settings.term")
-require("settings.treesitter")
+configs.setup({
+	ensure_installed = {
+		"lua",
+		"make",
+		"go",
+        "gomod",
+		"markdown",
+		"markdown_inline",
+		"bash",
+	},
+	highlight = {
+		enable = true,
+		disable = {
+			"css",
+		},
+	},
+	autopairs = {
+		enable = true,
+	},
+	indent = {
+		enable = true,
+		disable = {
+			"css",
+		},
+	},
+	rainbow = {
+		enable = true,
+		extended_mode = true,
+		max_file_lines = nil,
+	},
+	context_commentstring = {
+		enable = true,
+		enable_autocmd = true,
+	},
+})

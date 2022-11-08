@@ -1,7 +1,21 @@
+--
+--    /$$      /$$$$$$                                                /$$
+--   | $$     /$$$_  $$                                              | $$
+--  /$$$$$$  | $$$$\ $$ /$$$$$$$  /$$   /$$  /$$$$$$  /$$$$$$$   /$$$$$$$  /$$$$$$   /$$$$$$
+-- |_  $$_/  | $$ $$ $$| $$__  $$| $$  | $$ |____  $$| $$__  $$ /$$__  $$ /$$__  $$ /$$__  $$
+--   | $$    | $$\ $$$$| $$  \ $$| $$  | $$  /$$$$$$$| $$  \ $$| $$  | $$| $$  \__/| $$$$$$$$
+--   | $$ /$$| $$ \ $$$| $$  | $$| $$  | $$ /$$__  $$| $$  | $$| $$  | $$| $$      | $$_____/
+--   |  $$$$/|  $$$$$$/| $$  | $$|  $$$$$$$|  $$$$$$$| $$  | $$|  $$$$$$$| $$      |  $$$$$$$
+--    \___/   \______/ |__/  |__/ \____  $$ \_______/|__/  |__/ \_______/|__/       \_______/
+--                                /$$  | $$   file: lsp/handlers.lua
+--                               |  $$$$$$/   url: github.com/t0nyandre
+--                                \______/
+--
 local M = {}
 
-local ok, cmp_nvim_lsp = pcall(require, "cmp_nvim_lsp")
-if not ok then
+local status_ok, cmp_nvim_lsp = pcall(require, "cmp_nvim_lsp")
+local icons_ok, icons = pcall(require, "settings.icons")
+if not (status_ok or icons_ok) then
 	return
 end
 
@@ -11,11 +25,10 @@ M.capabilities = cmp_nvim_lsp.default_capabilities(M.capabilities)
 
 M.setup = function()
 	local signs = {
-
-		{ name = "DiagnosticSignError", text = "" },
-		{ name = "DiagnosticSignWarn", text = "" },
-		{ name = "DiagnosticSignHint", text = "" },
-		{ name = "DiagnosticSignInfo", text = "" },
+		{ name = "DiagnosticSignError", text = icons.diagnostics.BoldError },
+		{ name = "DiagnosticSignWarn", text = icons.diagnostics.BoldWarning },
+		{ name = "DiagnosticSignHint", text = icons.diagnostics.BoldHint },
+		{ name = "DiagnosticSignInfo", text = icons.diagnostics.BoldInformation },
 	}
 
 	for _, sign in ipairs(signs) do
@@ -43,11 +56,11 @@ M.setup = function()
 	vim.diagnostic.config(config)
 
 	vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
-		borader = "rounded",
+		border = "rounded",
 	})
 
 	vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, {
-		borader = "rounded",
+		border = "rounded",
 	})
 end
 
@@ -72,18 +85,7 @@ local function lsp_keymaps(bufnr)
 end
 
 M.on_attach = function(client, bufnr)
-	if client.name == "tsserver" then
-		client.server_capabilities.documentFormattingProvider = false
-	end
-
-	if client.name == "sumneko_lua" then
-		client.server_capabilities.documentFormattingProvider = false
-	end
-
-	if client.name == "rust_analyzer" then
-		client.server_capabilities.documentFormattingProvider = false
-	end
-
+	client.server_capabilities.documentFormattingProvider = false
 	lsp_keymaps(bufnr)
 	local status_ok, illuminate = pcall(require, "illuminate")
 	if not status_ok then

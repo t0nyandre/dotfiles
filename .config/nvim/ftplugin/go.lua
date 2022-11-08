@@ -7,32 +7,18 @@
 --   | $$ /$$| $$ \ $$$| $$  | $$| $$  | $$ /$$__  $$| $$  | $$| $$  | $$| $$      | $$_____/
 --   |  $$$$/|  $$$$$$/| $$  | $$|  $$$$$$$|  $$$$$$$| $$  | $$|  $$$$$$$| $$      |  $$$$$$$
 --    \___/   \______/ |__/  |__/ \____  $$ \_______/|__/  |__/ \_______/|__/       \_______/
---                                /$$  | $$   file: init.lua
+--                                /$$  | $$   file: ftplugin/go.lua
 --                               |  $$$$$$/   url: github.com/t0nyandre
 --                                \______/
 --
-local status_ok, impatient = pcall(require, "impatient")
-if not status_ok then
-	return
-end
-
-impatient.enable_profile()
-require("settings.options")
-require("settings.keymaps")
-require("settings.plugins")
-require("settings.autocommands")
-require("settings.colorscheme")
-require("settings.gopher")
-require("settings.cmp")
-require("settings.dap")
-require("settings.lsp")
-require("settings.telescope")
-require("settings.autopairs")
-require("settings.comment")
-require("settings.indentline")
-require("settings.nvimtree")
-require("settings.gitsigns")
-require("settings.illuminate")
-require("settings.lualine")
-require("settings.term")
-require("settings.treesitter")
+local keymap = vim.keymap.set
+local opts = { silent = true, noremap = true }
+keymap("n", "<leader>Ci", "<cmd>GoInstallDeps<Cr>", opts)
+keymap("n", "<leader>Ct", "<cmd>GoMod tidy<cr>", opts)
+keymap("n", "<leader>Ca", "<cmd>GoTestAdd<Cr>", opts)
+keymap("n", "<leader>CA", "<cmd>GoTestsAll<Cr>", opts)
+keymap("n", "<leader>Ce", "<cmd>GoTestsExp<Cr>", opts)
+keymap("n", "<leader>Cg", "<cmd>GoGenerate<Cr>", opts)
+keymap("n", "<leader>Cf", "<cmd>GoGenerate %<Cr>", opts)
+keymap("n", "<leader>Cc", "<cmd>GoCmt<Cr>", opts)
+keymap("n", "<leader>DT", "<cmd>lua require('dap-go').debug_test()<cr>", opts)
