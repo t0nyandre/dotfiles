@@ -32,7 +32,7 @@ end
 vim.cmd([[
   augroup packer_user_config
     autocmd!
-    autocmd BufWritePost lua/settings/plugins.lua source <afile> | PackerSync
+    autocmd BufWritePost plugins.lua source <afile> | PackerSync
   augroup end
 ]])
 
@@ -63,6 +63,7 @@ return packer.startup(function(use)
 	use({ "nvim-lualine/lualine.nvim" })
 	use({ "akinsho/toggleterm.nvim" })
 	use({ "lukas-reineke/indent-blankline.nvim" })
+    use({ "kylechui/nvim-surround" })
 
 	-- colorschemes
 	use({ "folke/tokyonight.nvim" })

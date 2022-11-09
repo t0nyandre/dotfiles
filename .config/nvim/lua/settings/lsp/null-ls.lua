@@ -37,12 +37,12 @@ null_ls.setup({
 				"Always",
 			},
 		}),
-        code_actions.gitsigns,
-        formatting.goimports.with({
-            filetypes = { "go" },
-        }),
-        formatting.gofumpt.with({
-            filetypes = { "go" },
-        }),
+		code_actions.gitsigns,
+		formatting.goimports.with({
+			filetypes = { "go" },
+		}),
+		formatting.gofumpt.with({
+			filetypes = { "go" },
+		}),
 	},
 })
