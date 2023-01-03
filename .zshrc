@@ -99,6 +99,10 @@ source $ZSH/oh-my-zsh.sh
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
+export GOPATH=$HOME/go
+export PATH=$PATH:$GOPATH/bin
 alias nv=nvim
 alias dot='/usr/bin/git --git-dir=$HOME/.dotfiles.git/ --work-tree=$HOME'
+alias aoc='cd ~/Programming/golang/advent-of-code/2022/'
+alias golang='cd ~/Programming/golang'
 pfetch

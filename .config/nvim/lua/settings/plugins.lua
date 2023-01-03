@@ -63,7 +63,7 @@ return packer.startup(function(use)
 	use({ "nvim-lualine/lualine.nvim" })
 	use({ "akinsho/toggleterm.nvim" })
 	use({ "lukas-reineke/indent-blankline.nvim" })
-    use({ "kylechui/nvim-surround" })
+	use({ "kylechui/nvim-surround" })
 
 	-- colorschemes
 	use({ "folke/tokyonight.nvim" })
@@ -81,8 +81,19 @@ return packer.startup(function(use)
 	use({ "saadparwaiz1/cmp_luasnip" }) -- snippet completions
 	use({ "hrsh7th/cmp-nvim-lsp" })
 	use({ "hrsh7th/cmp-nvim-lua" })
+    use("github/copilot.vim")
+    use("zbirenbaum/copilot.lua");
+	use({
+		"zbirenbaum/copilot.lua",
+		event = "InsertEnter",
+		config = function()
+			vim.schedule(function()
+				require("copilot").setup()
+			end)
+		end,
+	})
 
-    -- Golang
+	-- Golang
 	use({ "olexsmir/gopher.nvim" })
 	use({ "leoluz/nvim-dap-go" })
 

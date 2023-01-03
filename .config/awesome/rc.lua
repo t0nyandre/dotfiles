@@ -48,7 +48,7 @@ end
 beautiful.init(gears.filesystem.get_themes_dir() .. "default/theme.lua")
 
 -- This is used later as the default terminal and editor to run.
-terminal = "alacritty"
+terminal = "kitty"
 editor = "nv"
 editor_cmd = terminal .. " -e " .. editor
 
@@ -79,7 +79,17 @@ awful.layout.layouts = {
     -- awful.layout.suit.corner.se,
 }
 -- }}}
+-- Autostart
+function run_once(cmd)
+    findme = cmd
+    firstspace = cmd:find(" ")
+    if firstspace then
+        findme = cmd:sub(0, firstspace-1)
+    end
+    awful.util.spawn_with_shell("pgrep -u $USER -x " .. findme .. " > /dev/null || (" .. cmd .. ")")
+end
 
+run_once("nitrogen --restore")
 -- {{{ Menu
 -- Create a launcher widget and a main menu
 myawesomemenu = {
@@ -149,25 +159,7 @@ local tasklist_buttons = gears.table.join(
                                               awful.client.focus.byidx(-1)
                                           end))
 
-local function set_wallpaper(s)
-    -- Wallpaper
-    if beautiful.wallpaper then
-        local wallpaper = beautiful.wallpaper
-        -- If wallpaper is a function, call it with the screen
-        if type(wallpaper) == "function" then
-            wallpaper = wallpaper(s)
-        end
-        gears.wallpaper.maximized(wallpaper, s, true)
-    end
-end
-
--- Re-set wallpaper when a screen's geometry changes (e.g. different resolution)
-screen.connect_signal("property::geometry", set_wallpaper)
-
 awful.screen.connect_for_each_screen(function(s)
-    -- Wallpaper
-    set_wallpaper(s)
-
     -- Each screen has its own tag table.
     awful.tag({ "1", "2", "3", "4", "5", "6", "7", "8", "9" }, s, awful.layout.layouts[1])
 
@@ -273,6 +265,7 @@ globalkeys = gears.table.join(
         end,
         {description = "go back", group = "client"}),
 
+
     -- Standard program
     awful.key({ modkey,           }, "Return", function () awful.spawn(terminal) end,
               {description = "open a terminal", group = "launcher"}),
@@ -297,6 +290,10 @@ globalkeys = gears.table.join(
               {description = "select next", group = "layout"}),
     awful.key({ modkey, "Shift"   }, "space", function () awful.layout.inc(-1)                end,
               {description = "select previous", group = "layout"}),
+    awful.key({ "Mod1", "Shift"   }, "p", function () awful.util.spawn_with_shell("maim -s -u | xclip -selection clipboard -t image/png -i") end,
+              {description = "take screenshot of areselect previousa", group = "awesome"}),
+    awful.key({ "Mod1", "Shift"   }, "i", function () awful.util.spawn_with_shell("kitty sh -c 'sudo openfortivpn vpn.invo.no -u tony@invo.no'") end,
+              {description = "connect to invo vpn", group = "Invo AS"}),
 
     awful.key({ modkey, "Control" }, "n",
               function ()
@@ -370,7 +367,28 @@ clientkeys = gears.table.join(
             c.maximized_horizontal = not c.maximized_horizontal
             c:raise()
         end ,
-        {description = "(un)maximize horizontally", group = "client"})
+        {description = "(un)maximize horizontally", group = "client"}),
+
+    awful.key({ modkey, "Shift" }, "f", function(c)
+        c.fullscreen = not c.fullscreen
+        local geo = screen[1].geometry
+        geo.x2 = geo.x + geo.width
+        geo.y2 = geo.y + geo.height
+        for s in screen do
+            local geo2 = s.geometry
+            geo.x = math.min(geo.x, geo2.x)
+            geo.y = math.min(geo.y, geo2.y)
+            geo.x2 = math.max(geo.x2, geo2.x + geo2.width)
+            geo.y2 = math.max(geo.y2, geo2.y + geo2.height)
+        end
+        c:geometry{
+            x = geo.x,
+            y = geo.y,
+            width = geo.x2 - geo.x,
+            height = geo.y2 - geo.y
+        }
+    end, { description = "Toggel fullscreen over multiple monitors", group = "awesome" })
+
 )
 
 -- Bind all key numbers to tags.
@@ -490,7 +508,7 @@ awful.rules.rules = {
 
     -- Add titlebars to normal clients and dialogs
     { rule_any = {type = { "normal", "dialog" }
-      }, properties = { titlebars_enabled = true }
+      }, properties = { titlebars_enabled = false }
     },
 
     -- Set Firefox to always map on the tag named "2" on screen 1.
@@ -553,7 +571,6 @@ client.connect_signal("request::titlebars", function(c)
         layout = wibox.layout.align.horizontal
     }
 end)
-
 -- Enable sloppy focus, so that focus follows mouse.
 client.connect_signal("mouse::enter", function(c)
     c:emit_signal("request::activate", "mouse_enter", {raise = false})
@@ -562,3 +579,4 @@ end)
 client.connect_signal("focus", function(c) c.border_color = beautiful.border_focus end)
 client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_normal end)
 -- }}}
+
